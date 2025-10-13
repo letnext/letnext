@@ -1,0 +1,770 @@
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Home.css";
+import Chatbot from "./Chatbot"; // ✅ chatbot component
+import Portfolio from "./Portfolio";
+import Footer from "./Footer";
+import Whatapp from "./Whatapp";
+import TeamSection from "./TeamSection";
+
+import {
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaFacebookF,
+  FaTwitter,
+  FaLinkedinIn,
+  FaClock,
+} from "react-icons/fa";
+
+const API_BASE = import.meta.env.VITE_BASE_URL;
+
+const services = [
+  {
+    name: "Web Development",
+    path: "/webdesigner/web-development-IT-company-in-erode",
+  },
+  {
+    name: "App Development",
+    path: "/appdeveloper/app-development-IT-company-in-erode",
+  },
+  {
+    name: "Graphic Design",
+    path: "/graphicdesigner/graphic-design-IT-company-in-erode",
+  },
+  { name: "UI/UX Design", path: "/uiuxdesigner/uiux-design-IT-company-in-erode" },
+  {
+    name: "Digital Marketing",
+    path: "/digitalmarketer/digital-marketing-IT-company-in-erode",
+  },
+  { name: "Software Testing", path: "/testing/testing-IT-company-in-erode" },
+  {
+    name: "Social Media Marketing",
+    path: "/contentcreator/context-creator-IT-company-in-erode",
+  },
+  {
+    name: "SEO Specialist",
+    path: "/seospecialist/seo-specialist-IT-company-in-erode",
+  },
+  { name: "Photography", path: "/photographer/photograph-IT-company-in-erode" },
+  { name: "Videography", path: "/videographer/videograph-IT-company-in-erode" },
+  {
+    name: "Social Media Handling",
+    path: "/contentcreator/context-creator-IT-company-in-erode",
+  },
+  { name: "Embedded", path: "/embbeded/embbeded-IT-company-in-erode" },
+  { name: "Internet Of Things", path: "/iot/iot-IT-company-in-erode" },
+];
+
+function Home() {
+  const [open, setOpen] = useState(false);
+
+  const text = `As a premier website development it company in Erode, Findway Digital is dedicated to delivering high-quality web solutions tailored to your business needs. Whether you're looking to enhance your online presence, improve user experience, boost product sales, or strengthen your brand visibility, our expert web design and development services are vital to achieving your goals..`;
+  const navigate = useNavigate();
+  const [displayedText, setDisplayedText] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
+  const [msg, setMsg] = useState("");
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      setDisplayedText((prev) => prev + text[i]);
+      i++;
+      if (i === text.length) clearInterval(interval);
+    }, 40);
+    return () => clearInterval(interval);
+  }, [text]);
+
+  // form handlers
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const validate = () => {
+    if (!form.name) return "Name is required";
+    if (!/^\d{10}$/.test(form.phone)) return "Phone must be 10 digits";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
+      return "Invalid email address";
+    if (!form.message) return "Message is required";
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const error = validate();
+    if (error) {
+      setMsg(error);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      setMsg("✅ Enquiry sent successfully!");
+      setForm({ name: "", phone: "", email: "", message: "" });
+    } catch (err) {
+      console.error("❌ Error sending enquiry:", err);
+      setMsg("❌ Error sending enquiry");
+    }
+  };
+
+  return (
+    <div>
+      {/* Navbar */}
+      <nav className="navbar">
+        <div className="nav-left">
+          <div className="logo">
+            <img src="/companylogo.png" alt="Company Logo" />
+            {/* <img src="/companylogo.png" alt="Company Logo" /> */}
+          </div>
+
+          {/* Services Dropdown */}
+          <div className="services">
+            <button className="services-btn">Services ▾</button>
+            <div className="dropdown-menu">
+              {services.map((service, index) => (
+                <div
+                  key={index}
+                  className="service-card"
+                  onClick={() => navigate(service.path)}
+                  style={{ cursor: "pointer" }}>
+                  {service.name}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Nav Right Links */}
+        <ul className="nav-right">
+          <li>
+            <a href="#home/web-design-IT-company-in-erode">Home</a>
+          </li>
+          <li>
+            <a href="#how/web-design-IT-company-in-erode">How It Works</a>
+          </li>
+          <li>
+            <a href="#portfolio/web-design-IT-company-in-erode">Portfolio</a>
+          </li>
+          <li>
+            <a href="#career/web-design-IT-company-in-erode">Career</a>
+          </li>
+          {/* <li><a href="#mission">Mission and Vision</a></li> */}
+          <li>
+            <a href="#about/web-design-IT-company-in-erode">About</a>
+          </li>
+          <li>
+            <a href="#contact-web-design-IT-company-in-erode">Contact</a>
+          </li>
+          <li>
+            <a href="#ourteam/web-design-IT-company-in-erode">Our Team</a>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Home Section */}
+      <section id="home/web-design-IT-company-in-erode" className="home">
+        <video className="home-video" autoPlay loop muted playsInline>
+          <source src="/all.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div className="home-overlay"></div>
+        <div className="home-content">
+          <h1 className="large">
+            Professional Website Design and Development IT Company in Erode 
+          </h1>
+          <div className="typewriter">
+            <p>{displayedText}</p>
+            <span className="cursor"></span>
+          </div>
+
+          {/* 🚀 New Button */}
+          <button
+            className="quote-btn"
+            onClick={() =>
+              document
+                .querySelector("#contact-web-design-IT-company-in-erode")
+                .scrollIntoView({ behavior: "smooth" })
+            }>
+            Get a Free Quote
+          </button>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section
+        id="how/web-design-IT-company-in-erode"
+        className="section how-section">
+        <h2>How It Works</h2>
+        <div className="how-steps">
+          <div className="step">
+            <h3>Your Requirement</h3>
+            <p>
+              At Letnext Technologies, one of the best IT firms in Erode, we recognize that each business has its own special digital requirements. If you need web development, software solutions, online marketing, or IT services, our experienced professionals provide tailored services to increase your business. With a commitment to innovation, reliability, and long-term success for our clients from all industries, we stand as a reliable IT firm in Erode.
+            </p>
+          </div>
+          <div className="step">
+            <h3>Find What You Want</h3>
+            <p>
+              Seeking the ideal digital solution? At Letnext Technologies, a reliable IT company in Erode, we assist you in finding just what you are looking for to drive your business forward. From web development and app development to online marketing and IT advisory services, our professionals deliver innovative and performance-based solutions. As a pioneer IT company in Erode, we guarantee each of our services fulfills your objectives with quality, imagination, and technology perfection.
+            </p>
+          </div>
+          <div className="step">
+            <h3>Explore Our Place</h3>
+            <p>
+              217, Kulavikaradu, P VellalaPalayam, GobichettiPalayam,
+              Erode-638476.
+            </p>
+          </div>
+        </div>
+      </section>
+      {/* //////////portilio */}
+      <Portfolio />
+
+      {/* //////////////////////////career/////////////////////////////////////////////// */}
+      {/* ✅ Career Section */}
+      <section
+        id="career/web-design-IT-company-in-erode"
+        className="section career-section">
+        <h2>Career</h2>
+        <p>
+          We are always looking for passionate and talented individuals to join
+          our team. Explore our career opportunities below:
+        </p>
+
+        <div className="career-carousel">
+          {/* ⬅️ Left Arrow */}
+          {/* <button
+            className="arrow left-arrow"
+            onClick={() => {
+              const track = document.querySelector(".career-track");
+              track.scrollBy({ left: -350, behavior: "smooth" });
+
+              // Loop to the end when reaching start
+              if (track.scrollLeft === 0) {
+                track.scrollLeft = track.scrollWidth / 2;
+              }
+            }}
+          >
+            &#10094;
+          </button> */}
+
+          <div className="career-track">
+            {/* ✅ Original Career Cards */}
+            <div className="career-card">
+              <img src="/fullstack.jpg" alt="Full Stack Developer" />
+              <h3>Full Stack Developer</h3>
+              <p>Building complete web solutions from frontend to backend.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/fullstack/full-stack-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+            <div className="career-card">
+              <img src="/seo1.jpg" alt="Digital Marketing" />
+              <h3>Digital Marketing (SEO)</h3>
+              <p>Optimizing brands for search engines and success.</p>
+              <button
+                className="career-btn"
+                onClick={() => navigate("/seo/seo-IT-company-in-erode")} // ✅ Navigate to Seo.jsx
+              >
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/datascience.jpg" alt="Data Scientist" />
+              <h3>Data Scientist</h3>
+              <p>Solving problems with data, algorithms, and intuition.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/datascientist/data-scientist-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/cloud.jpg" alt="Cloud Engineer" />
+              <h3>Cloud Engineer</h3>
+              <p>Engineering the backbone of modern digital services.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/cloudengineer/cloud-engineer-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/ml.jpg" alt="ML Engineer" />
+              <h3>Machine Learning Engineer</h3>
+              <p>Turning data into predictive power through ML.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/mlengineer/ml-engineer-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/uiux1.jpg" alt="UI/UX Designer" />
+              <h3>UI/UX Designer</h3>
+              <p>Designing intuitive experiences that users love.</p>
+              <button
+                className="career-btn"
+                onClick={() => navigate("/uiux/uiux-design-IT-company-in-erode")}>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img
+                src="https://ik.imagekit.io/3zau674ihy/mobile.jpg?updatedAt=1757481250842"
+                alt="Mobile Developer"
+              />
+              <h3>Mobile App Developer</h3>
+              <p>Developing fast, functional, and user-friendly apps.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/mobile/mobile-development-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/network.jpg" alt="Network Security" />
+              <h3>Network & Security</h3>
+              <p>Working with network protocols to ensure connectivity.</p>
+              <button
+                className="career-btn"
+                onClick={() => navigate("/network/network-IT-company-in-erode")}>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/embedded.jpg" alt="Embedded System" />
+              <h3>Embedded System Full Guide</h3>
+              <p>Developing real-time hardware-software smart solutions.</p>
+              <button
+                className="career-btn"
+                onClick={() => navigate("/embedded/embedded-IT-company-in-erode")}>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/blockchain.jpg" alt="Blockchain" />
+              <h3>Blockchain Management</h3>
+              <p>Managing blockchain projects for secure decentralized apps.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/blockchain/blockchain-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/excel.jpg" alt="Excel Expert" />
+              <h3>Microsoft Excel - Beginner to Advance</h3>
+              <p>Mastering Excel to automate tasks and analyze data.</p>
+              <button
+                className="career-btn"
+                onClick={() => navigate("/excel/excel-IT-company-in-erode")}>
+                Click Here
+              </button>
+            </div>
+
+            {/* ✅ Duplicate Career Cards for Infinite Loop */}
+            <div className="career-card">
+              <img src="/fullstack.jpg" alt="Full Stack Developer" />
+              <h3>Full Stack Developer</h3>
+              <p>Building complete web solutions from frontend to backend.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/fullstack/full-stack-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+            <div className="career-card">
+              <img src="/seo1.jpg" alt="Digital Marketing" />
+              <h3>Digital Marketing (SEO)</h3>
+              <p>Optimizing brands for search engines and success.</p>
+              <button
+                className="career-btn"
+                onClick={() => navigate("/seo/seo-IT-company-in-erode")} // ✅ Navigate to Seo.jsx
+              >
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/datascience.jpg" alt="Data Scientist" />
+              <h3>Data Scientist</h3>
+              <p>Solving problems with data, algorithms, and intuition.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/datascientist/data-scientist-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/cloud.jpg" alt="Cloud Engineer" />
+              <h3>Cloud Engineer</h3>
+              <p>Engineering the backbone of modern digital services.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/cloudengineer/cloud-engineer-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/ml.jpg" alt="ML Engineer" />
+              <h3>Machine Learning Engineer</h3>
+              <p>Turning data into predictive power through ML.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/mlengineer/ml-engineer-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/uiux1.jpg" alt="UI/UX Designer" />
+              <h3>UI/UX Designer</h3>
+              <p>Designing intuitive experiences that users love.</p>
+              <button
+                className="career-btn"
+                onClick={() => navigate("/uiux/uiux-design-IT-company-in-erode")}>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/mobile.jpg" alt="Mobile Developer" />
+              <h3>Mobile App Developer</h3>
+              <p>Developing fast, functional, and user-friendly apps.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/mobile/mobile-development-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/network.jpg" alt="Network Security" />
+              <h3>Network & Security</h3>
+              <p>Working with network protocols to ensure connectivity.</p>
+              <button
+                className="career-btn"
+                onClick={() => navigate("/network/network-IT-company-in-erode")}>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/embedded.jpg" alt="Embedded System" />
+              <h3>Embedded System Full Guide</h3>
+              <p>Developing real-time hardware-software smart solutions.</p>
+              <button
+                className="career-btn"
+                onClick={() => navigate("/embedded/embedded-IT-company-in-erode")}>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/blockchain.jpg" alt="Blockchain" />
+              <h3>Blockchain Management</h3>
+              <p>Managing blockchain projects for secure decentralized apps.</p>
+              <button
+                className="career-btn"
+                onClick={() =>
+                  navigate("/blockchain/blockchain-IT-company-in-erode")
+                }>
+                Click Here
+              </button>
+            </div>
+
+            <div className="career-card">
+              <img src="/excel.jpg" alt="Excel Expert" />
+              <h3>Microsoft Excel - Beginner to Advance</h3>
+              <p>Mastering Excel to automate tasks and analyze data.</p>
+              <button
+                className="career-btn"
+                onClick={() => navigate("/excel/excel-IT-company-in-erode")}>
+                Click Here
+              </button>
+            </div>
+          </div>
+
+          {/* ➡️ Right Arrow */}
+          {/* <button
+            className="arrow right-arrow"
+            onClick={() => {
+              const track = document.querySelector(".career-track");
+              track.scrollBy({ left: 350, behavior: "smooth" });
+
+              // Loop back when reaching end
+              if (track.scrollLeft + track.clientWidth >= track.scrollWidth) {
+                track.scrollLeft = track.scrollWidth / 2 - track.clientWidth;
+              }
+            }}
+          >
+            &#10095;
+          </button> */}
+        </div>
+      </section>
+      {/* ///////////////////////////////////////Mission////////////////////////////////////////////? */}
+
+      {/* Mission & Vision Section */}
+      <section
+        id="mission/web-design-IT-company-in-erode"
+        className="mission-vision">
+        <h2 className="section-title">Our Mission & Vision</h2>
+
+        <div className="mv-container">
+          {/* Mission */}
+          <div className="mv-card">
+            <h3>Our Mission</h3>
+            <p>
+              At Letnext Technologies, our purpose is to enable businesses through innovation and technology. As a top IT company in Erode, we aim to provide high-quality digital solutions that lead to growth and efficiency. Our vision is to fill the gap between ideas and action through assured IT services, innovative strategies, and customer-centric solutions that enable our clients to succeed in today's digital era.
+            </p>
+          </div>
+
+          {/* Vision */}
+          <div className="mv-card">
+            <h3>Our Vision</h3>
+            <p>
+             Our vision at Letnext Technologies is to become the most innovative and reliable IT company in Erode, leading digital transformation for businesses of all sizes. We believe in a future where technology enables every organization to become sustainable, scalable, and successful. As a forward-thinking IT company in Erode, we are committed to providing smart, scalable, and effective solutions that drive progress and set new standards for digital excellence.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* About */}
+      <section
+        id="about/web-design-IT-company-in-erode"
+        className="section about-section">
+        <h2>About Us</h2>
+
+        {/* Row 1 */}
+        <div className="about-row">
+          <div className="about-image">
+            <img src="/about1.jpg" alt="About 1" />
+          </div>
+          <div className="about-text">
+            <p>
+              Our mission at Letnext Technologies is to emerge as the most innovative and trustworthy IT firm in Erode, spearheading digital transformation for small, medium, and large businesses. We envision a future where technology makes every organization sustainable, scalable, and successful. As a progressive IT Company in Erode, we aim to offer intelligent, scalable, and effective solutions that propel growth and define standards for digital excellence.
+            </p>
+          </div>
+        </div>
+
+        {/* Row 2 */}
+        <div className="about-row reverse">
+          <div className="about-text">
+            <p>
+              We are Letnext Technologies, a top IT company in Erode, and we promote an environment that is innovative and dynamic. We have an office that promotes creativity, teamwork, and learning, which sees our team provide the best solutions to clients. As a reliable IT company in Erode, we hold the view that a positive and technologically driven environment not only motivates our staff but also stimulates excellence in all projects we take on.
+            </p>
+          </div>
+          <div className="about-image">
+            <img src="/about2.jpg" alt="About 2" />
+          </div>
+        </div>
+        <div className="about-row">
+          <div className="about-image">
+            <img src="/about3.jpg" alt="About 3" />
+          </div>
+          <div className="about-text">
+            <p>
+              Our vision is to create digital experiences that inspire and
+              empower. We strive to turn ideas into reality through creativity
+              and cutting-edge technology. Sustainability ensuring long-term
+              solutions that benefit both business and community. Passion
+              fueling every project with dedication and energy. Adaptability
+              embracing change to stay ahead in a fast-evolving world.
+              Responsibility taking ownership to deliver value with purpose.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ////////////////////////////////////////////contact////////////////////////////////////////////////////////////////////////// */}
+
+      {/* Contact Section */}
+      <section
+        id="contact-web-design-IT-company-in-erode"
+        className="contact-section">
+        <div className="contact-container">
+          {/* Left Info with Map + Details */}
+          <div className="contact-info">
+            <h2>Contact Us For More Info</h2>
+            <div className="map-container">
+              <iframe
+                title="LetNext Technologies Location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3921.337372565509!2d77.7130152!3d11.3466261!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x651a89dcc8075c43%3A0xff0910361915363f!2sLetNext%20Technologies!5e0!3m2!1sen!2sin!4v1692353492643!5m2!1sen!2sin"
+                width="100%"
+                height="250"
+                style={{ border: "0" }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+            <div className="info-block">
+              <h3>For Business Enquiry :</h3>
+              <p>
+                <span className="icon">
+                  <FaPhoneAlt />
+                </span>
+                <a href="tel:+919940847940 ">
+                  +91 9940847940<br></br>
+                </a>
+              </p>
+              <p>
+                <span className="icon">
+                  <FaPhoneAlt />
+                </span>
+                <a href="tel:+91 7708921550">
+                  +91 7708921550<br></br>
+                </a>
+              </p>
+              <p>
+                <span className="icon">
+                  <FaPhoneAlt />
+                </span>
+                <a href="tel:+91637919825">+91 6379198255</a>
+              </p>
+              <p>
+                <span className="icon">
+                  <FaEnvelope />
+                </span>
+                <a href="mailto:lnt@letnexttechnologies.com">
+                  lnt@letnexttechnologies.com
+                </a>
+              </p>
+            </div>
+
+            <div className="info-block">
+              <h3>To Join Our Team :</h3>
+              <p>
+                <span className="icon">
+                  <FaPhoneAlt />
+                </span>
+                <a href="tel:+919043327940">+91 9043327940</a>
+              </p>
+              <p>
+                <span className="icon">
+                  <FaEnvelope />
+                </span>
+                <a href="mailto:lnt@letnexttechnologies.com">
+                  lnt@letnexttechnologies.com
+                </a>
+              </p>
+            </div>
+          </div>
+
+          {/* Right Contact Form */}
+          <div className="contact-form">
+            <h2>Get a Free Quote</h2>
+            {msg && <p className="form-msg">{msg}</p>}
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={form.name}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="phone"
+                placeholder="Phone Number"
+                value={form.phone}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={form.email}
+                onChange={handleChange}
+                required
+              />
+              <textarea
+                name="message"
+                placeholder="Message"
+                value={form.message}
+                onChange={handleChange}
+                required></textarea>
+              <button type="submit">Send Enquiry</button>
+            </form>
+          </div>
+        </div>
+        {/* Meet Our CEO Section */}
+        <section className="ceo-section">
+          <div className="ceo-container">
+            <h2 className="ceo-heading">Meet Our CEO</h2>
+            <div className="ceo-divider"></div>
+
+            <h3 className="ceo-name">Sabari K</h3>
+            <p className="ceo-title">Chief Executive Officer & Founder</p>
+
+            <blockquote className="ceo-quote">
+              "At LetNext Technologies, our vision is to drive innovation with
+              intelligence — building technology that empowers, inspires, and
+              transforms lives."
+            </blockquote>
+          </div>
+        </section>
+      </section>
+
+      {/* ✅ Chatbot floating bottom-right */}
+      <TeamSection />
+      <Chatbot />
+      <Whatapp />
+      <Footer />
+    </div>
+  );
+}
+
+export default Home;
