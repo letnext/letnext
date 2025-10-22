@@ -59,7 +59,7 @@ const services = [
 function Home() {
   const [open, setOpen] = useState(false);
 
-  const text = `As a premier website development it company in Erode, Findway Digital is dedicated to delivering high-quality web solutions tailored to your business needs. Whether you're looking to enhance your online presence, improve user experience, boost product sales, or strengthen your brand visibility, our expert web design and development services are vital to achieving your goals..`;
+  const text = `As premier website development it company in Erode, Findway Digital is dedicated to delivering high-quality web solutions tailored to your business needs. Whether you're looking to enhance your online presence, improve user experience, boost product sales, or strengthen your brand visibility, our expert web design and development services are vital to achieving your goals..`;
   const navigate = useNavigate();
   const [displayedText, setDisplayedText] = useState("");
   const [form, setForm] = useState({

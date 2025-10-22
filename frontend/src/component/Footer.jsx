@@ -67,6 +67,7 @@ export default function Footer() {
         <div className="footer-col">
           <h3>For more details</h3>
           <p><FaMapMarkerAlt /> 217,Kulavikaradu,P.VellalaPalayam,Gobi<br />Erode, Tamil Nadu 638476</p>
+          <p><FaMapMarkerAlt /> 287,Thisayanvilai,Nanguneri(TK)<br />Tirunelveli, Tamil Nadu 627657</p>
           <p><FaPhoneAlt /> +91 9940847940</p>
           
           <p><FaEnvelope /> lnt@letnexttechnologies.com</p>

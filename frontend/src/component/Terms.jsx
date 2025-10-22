@@ -5,7 +5,7 @@ const Terms = () => {
   return (
     <div className="terms-container">
       <h1>Terms of Use for Letnext Technology</h1>
-      <p><strong>Effective Date:</strong> [2025]</p>
+      <p><strong>Effective Date:</strong> [2024]</p>
 
       <p>
         Welcome to <strong>Letnext Technology</strong>. By accessing or using our

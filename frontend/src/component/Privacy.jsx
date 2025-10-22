@@ -5,7 +5,7 @@ const Private = () => {
   return (
     <div className="privacy-container">
       <h1>Privacy Policy for Letnext Technology</h1>
-      <p><strong>Effective Date:</strong> [2025]</p>
+      <p><strong>Effective Date:</strong> [2024]</p>
 
       <p>
         At <strong>Letnext Technology</strong>, we value and respect your privacy.
